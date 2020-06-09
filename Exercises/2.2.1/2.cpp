@@ -23,5 +23,5 @@ int main() {
 		}
 	}
 	debug (ans.first);
-	debug(ans.second);
+	debug (ans.second);
 }
