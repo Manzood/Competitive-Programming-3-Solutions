@@ -87,24 +87,43 @@ void inorder (struct node* root) {
 }
 
 int successor (struct node* root, int val) {
+    // need to rewrite this damn thing, because I'm so incredibly bad at it 
+    // a successor is the next biggest element after the current element
+    // Once I find the element, I'll look to the right; If I find something to the right I'll return that, otherwise I'll return INT_MIN
+    // if I encounter INT_MIN, I'll have the parent return it's own value instead
+    // But how do I check direction?
+    printf("Currently at Node %d\n", root->val);
     if (root->val == val) {
         if (root->right) {
-            printf("Returning %d\n", root->val);
-            return root->val;
+            printf("Returning value %d\n", root->right->val);
+            return root->right->val;
+        }
+        printf("Returning value %d\n", INT_MIN);
+        return INT_MIN;
+    }
+    int retval;
+    if (val < root->val) retval = successor (root->left, val);
+    else retval = successor (root->right, val);
+    if (retval == INT_MIN && root->val > val) retval = root->val;
+    printf("Retval is now %d\n", retval);
+    return retval;
+}
+
+struct node* del (struct node* root, int val) {
+    // TODO: fix this damn function and move on to heaps
+    while (temp) {
+        if (val < temp->val) {
+            temp = temp->left;
+        }
+        else if (val > temp->val) {
+            temp = temp->right;
+        }
+        else {
+            temp=NULL;
+            return true;
         }
     }
-    if (root->left && root->left->val == val) {
-        if (!root->left->left) {
-            printf("Returning %d\n", root->val);
-            return root->val;
-        }
-    }
-    if (root->left) {
-        return successor (root->left, val);
-    }
-    if (root->right) {
-        return successor (root->right, val);
-    }
+    return false;
 }
 
 int main() {
@@ -123,5 +142,11 @@ int main() {
     // int mx = findmax();
     // printf("Min = %d\nMax = %d\n", mn, mx);
     // inorder (tree);
-    printf("%d", successor (tree, 23));
+    // int succ = successor (tree, 71);
+    // if (succ == INT_MIN) printf("Not found\n");
+    // else printf("%d", succ);
+    bool deleted = del (5);
+    if (deleted) printf("Deletion complete\n");
+    else printf("Value not found\n");
+    display (tree);
 }
